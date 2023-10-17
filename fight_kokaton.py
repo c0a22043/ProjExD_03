@@ -175,7 +175,8 @@ class Explosion:
             self.image = self.images[self.image_index]
 
     def draw(self, screen: pg.Surface):
-        screen.blit(self.image, self.rect)
+        if self.life > 0:  # lifeが0より大きい間のみ描画
+            screen.blit(self.image, self.rect)
 
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
@@ -211,7 +212,10 @@ def main():
         for i, bomb in enumerate(bombs):
             if beam is not None:  
                 if beam.rct.colliderect(bomb.rct):
-                    explosions.append(Explosion(bomb.rct.center))
+                    explosion = Explosion(bomb.rct.center)
+                    explosions.append(explosion)
+                    explosion.update()
+                    explosion.draw(screen)
                     beam = None
                     bombs[i] = None
                     bird.change_img(6, screen)
@@ -228,7 +232,7 @@ def main():
             bomb.update(screen)
         if beam is not None:
             beam.update(screen)#順番大切
-        score.update(screen)
+        score.update(screen) 
         for explosion in explosions:
             explosion.update()
             explosion.draw(screen)
