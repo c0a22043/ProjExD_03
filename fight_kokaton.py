@@ -83,7 +83,7 @@ class Beam:
             こうかとん画像Surfaceを生成する
             引数1 bird：こうかとんインスタンス画像ファイル名の番号
             """
-            self.img =pg.image.load(f"ex03/fig/beam.png")
+            self.img =pg.image.load(f"ex03/fig/beam.png"), 
             self.rct = self.img.get_rect()
             self.rct.left = bird.rct.right
             self.rct.centery = bird.rct.centery
@@ -160,11 +160,12 @@ def main():
             if bomb is not None:
                 if beam.rct.colliderect(bomb.rct):
                     beam = None
-                    bomb = None                
+                    bomb = None
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
-        bomb.update(screen)
+        if bomb is not None:
+            bomb.update(screen)
         if beam is not None:
             beam.update(screen)#順番大切
         pg.display.update()
